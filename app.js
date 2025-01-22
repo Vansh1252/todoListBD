@@ -5,7 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const dotenv = require('dotenv');
 const connectDB = require('./utilities/connection.js');
-var indexRouter = require('./routes/index');
+var tasksrouter = require('./routes/tasks.js');
 var usersRouter = require('./routes/users');
 
 var app = express();
@@ -28,7 +28,7 @@ if (!DATABASE_URL || !process.env.JWT_SECRET) {
 }
 connectDB(DATABASE_URL);
 
-app.use('/', indexRouter);
+app.use('/tasks', tasksrouter);
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
