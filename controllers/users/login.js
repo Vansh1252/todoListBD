@@ -12,11 +12,11 @@ const login = async (req, res) => {
                 if (login !== null) {
                     const comparepassword = await bcrypt.compare(password, login.password);
                     if (comparepassword) {
-                        const token = jwt.sign(
-                            { adminId: admin._id, email: admin.email },
-                            process.env.JWT_SECRET,
-                        );
-                        return responseManger.onsuccess(res, token, "Login successful.");
+                        let otp = otpgenrator();
+                        const hashedotp = await bcrypt.hash(otp, 10);
+                        login.otp = hashedotp;
+                        await login.save();
+                        return responseManger.onsuccess(res, otp, "otp send to email...!");
                     }
                 } else {
                     return responseManger.badrequest(res, "email iD is Invalid...!");
@@ -31,6 +31,4 @@ const login = async (req, res) => {
         return responseManger.servererror(res, constants.RESPONSE_MESSAGES.SERVER_ERROR);
     }
 }
-
 module.exports = login
-

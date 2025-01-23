@@ -13,6 +13,10 @@ const schema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    verified:{
+        type:Boolean,
+        default:false
+    },
     deleted: {
         type: Boolean,
         default: false
