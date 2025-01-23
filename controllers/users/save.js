@@ -19,7 +19,6 @@ const transporter = nodemailer.createTransport({
 });
 transporter.verify((error, success) => {
     if (error) {
-        console.log("object");
         console.log(error);
     } else {
         console.log("Ready to send emails...!");
@@ -35,7 +34,7 @@ const sendVerificationEmail = async ({ _id, email }, res) => {
         subject: "Verify Your Email",
         html: `<p>Verify your email address to complete signup and log in to your account.</p>
         <p>This link <b>expires in 6 hours</b>.</p>
-        <p>Click <a href="${currentUrl}verify/${_id}/${uniqueString}">here</a> to verify your email.</p>`,
+        <p>Click <a href="${currentUrl}users/verify/${_id}/${uniqueString}">here</a> to verify your email.</p>`,
     };
 
     try {
@@ -65,7 +64,6 @@ const verifyEmail = async (req, res) => {
         if (!verificationRecord) {
             return responseManager.badrequest(res, "Verification record not found!");
         }
-
         if (verificationRecord.expiresAt < Date.now()) {
             await userverificationmodel.deleteOne({ userId });
             return responseManager.badrequest(res, "Verification link has expired!");
@@ -78,9 +76,8 @@ const verifyEmail = async (req, res) => {
 
         await usermodel.findByIdAndUpdate(userId, { verified: true });
         await userverificationmodel.deleteOne({ userId });
-
+        return responseManager.onsuccess(res, "verfiy successfully...!");
     } catch (error) {
-        console.error("Error in verifyEmail:", error);
         return responseManager.servererror(res, constants.RESPONSE_MESSAGES.SERVER_ERROR);
     }
 };
@@ -124,11 +121,8 @@ const registeruser = async (req, res) => {
             return responseManager.badrequest(res, "full is required...!");
         }
     } catch (error) {
-        console.log(error);
         return responseManager.servererror(res, constants.RESPONSE_MESSAGES.SERVER_ERROR);
     }
 }
-
-
 
 module.exports = { registeruser, verifyEmail }

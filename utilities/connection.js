@@ -3,8 +3,6 @@ const connectDB = async (DATABASE_URL) => {
     try {
         const DB_OPTIONS = {
             dbname: process.env.DBNAME,
-            useNewUrlParser: true,
-            useUnifiedTopology: true
         };
         await mongoose.connect(DATABASE_URL, DB_OPTIONS);
         console.log("Connected successfully to the database.");
