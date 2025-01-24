@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 const responseManager = require('../../utilities/responseManager');
+const userverificationmodel = require('../../models/userverfication.model');
+const usermodel = require('../../models/users.model');
 const constants = require('../../utilities/constants');
 const bcrypt = require('bcrypt');
-const usermodel = require('../../models/users.model');
 const nodemailer = require('nodemailer');
-const userverificationmodel = require('../../models/userverfication.model');
 const { v4: uuidv4 } = require('uuid');
 require('dotenv').config();
 const transporter = nodemailer.createTransport({
@@ -13,14 +13,12 @@ const transporter = nodemailer.createTransport({
         user: process.env.AUTH_EMAIL,
         pass: process.env.AUTH_PASS,
     },
-    tls: {
-        rejectUnauthorized: false,
-    }
 });
 transporter.verify((error, success) => {
     if (error) {
         console.log(error);
     } else {
+        console.log(success);
         console.log("Ready to send emails...!");
     }
 });

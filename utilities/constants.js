@@ -13,7 +13,7 @@ const constants = {
         USER_CREATED: "User created successfully.",
         BAD_REQUEST: "Invalid input data.",
         SERVER_ERROR: "Internal server error.",
-        
+
     },
     ROLES: {
         ADMIN: "admin",
