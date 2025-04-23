@@ -25,7 +25,6 @@ transporter.verify((error, success) => {
 const sendVerificationEmail = async ({ _id, email }, res) => {
     const currentUrl = "http://localhost:3000/";
     const uniqueString = uuidv4() + _id;
-
     const mailOptions = {
         from: process.env.AUTH_EMAIL,
         to: email,
@@ -34,7 +33,6 @@ const sendVerificationEmail = async ({ _id, email }, res) => {
         <p>This link <b>expires in 6 hours</b>.</p>
         <p>Click <a href="${currentUrl}users/verify/${_id}/${uniqueString}">here</a> to verify your email.</p>`,
     };
-
     try {
         const hashedUniqueString = await bcrypt.hash(uniqueString, 10);
 
@@ -56,7 +54,6 @@ const sendVerificationEmail = async ({ _id, email }, res) => {
 
 const verifyEmail = async (req, res) => {
     const { userId, uniqueString } = req.params;
-
     try {
         const verificationRecord = await userverificationmodel.findOne({ userId });
         if (!verificationRecord) {
